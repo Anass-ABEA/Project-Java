@@ -135,6 +135,10 @@ public class HomePage {
 		panel.add(passport);
 		
 		JButton edit = new JButton("");
+		edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		edit.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		edit.setToolTipText("Changer Vos Informations");
@@ -371,13 +375,21 @@ public class HomePage {
 		clear_to.setIcon(new ImageIcon("img\\x_small.png"));
 		clear_to.setBounds(829, 12, 25, 25);
 		panel_2_1.add(clear_to);
-		
-					nom.setHorizontalAlignment(SwingConstants.LEADING);
+		edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prenom.setHorizontalAlignment(SwingConstants.LEADING);
+				nom.setHorizontalAlignment(SwingConstants.LEADING);
 				passport.setHorizontalAlignment(SwingConstants.LEADING);
 				nom.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				prenom.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				passport.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			
+				passport.setFocusable(true);
+				nom.setFocusable(true);
+				prenom.setFocusable(true);
+				edit.setVisible(false);
+				save.setVisible(true);
+			}
+		});
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dbh.udapteValuesOfUser(ID,nom.getText(),prenom.getText(),passport.getText());
