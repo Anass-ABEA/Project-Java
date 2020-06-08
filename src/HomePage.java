@@ -32,14 +32,16 @@ public class HomePage {
 	private JTextField prenom;
 	private JTextField passport;
 	private JTextField findMe;
-	private ArrayList<String> ticketList=null;
-	private ArrayList<String> orderList=null;
+	
 	private	JTable list;
 	private JTable reservationNew;
 	private JTextField to;
 	private JTextField from;
-	private String[][] corps_new;
-	private String[][] corps_booked;
+	private String[][] corps_new=null;
+	private String[][] corps_booked=null;
+	private int IDENTIFIER;
+	private JScrollPane scrollPane;
+	
 	
 
 	/**
@@ -50,7 +52,7 @@ public class HomePage {
 			public void run() {
 				try {
 					
-					HomePage window = new HomePage(1);
+					HomePage window = new HomePage(2);
 					window.frmHomePage.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,9 +65,12 @@ public class HomePage {
 	 * Create the application.
 	 */
 	public HomePage(int ID) {
+		this.IDENTIFIER=ID;
+		System.out.println(ID);
 		dbh= new DatabaseHelper();
 		dbh.connect();
 		initialize(ID);
+		
 	}
 
 	/**
@@ -172,7 +177,20 @@ public class HomePage {
 				new Login();
 			}
 		});
+		
+		
+		JButton book = new JButton("RESERVER");
+		book.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmHomePage.dispose();
+				// create new form for reservation                                        INCOMPLETE
+			}
+		});
+		
+		book.setVisible(false);
+		book.setBounds(700,619,154,62);
 		reg.setBounds(902,619,154,62);
+		frmHomePage.add(book);
 		frmHomePage.add(reg);
 		nom.setHorizontalAlignment(SwingConstants.CENTER);
 		prenom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -214,7 +232,7 @@ public class HomePage {
 		find.setContentAreaFilled(false);
 		find.setBorderPainted(false);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 55, 641, 206);
 		panel_2.add(scrollPane);
 		
@@ -230,15 +248,7 @@ public class HomePage {
 	    };
 		list.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		list.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "1", "1", "1", "1", "1"},
-				{"2", "2", "2", "2", "2", "2"},
-			},
-			new String[] {
-				"Date d\u00E9part", "Heure d'Embarquement", "Heure D\u00E9collage", "Dur\u00E9e", "Si\u00E8ge", "Status"
-			}
-		));
+	
 		list.getColumnModel().getColumn(0).setPreferredWidth(90);
 		list.getColumnModel().getColumn(1).setPreferredWidth(168);
 		list.getColumnModel().getColumn(2).setPreferredWidth(116);
@@ -426,11 +436,11 @@ public class HomePage {
 				if(findMe.getText().length()!=0) {
 					
 					cancel.setVisible(true);
-					if(ticketList==null) {
+					if(corps_booked==null) {
 						list.setVisible(false);
 						noReservation_label.setVisible(true);
 					}else {
-						if(ticketList.size()==0) {
+						if(corps_booked.length==0) {
 							list.setVisible(false);
 							noReservation_label.setVisible(true);
 						}else {
@@ -448,10 +458,11 @@ public class HomePage {
 				cancel.setVisible(false);
 				
 				findMe.setText("");
-				fill_reservation(list,ticketList);
+				int id = getid();
+				fillReservationExisting(id);
 			}
 		});
-		//fill_reservation(list,ticketList);
+		
 		find_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!from.getText().equals("")) {
@@ -481,10 +492,15 @@ public class HomePage {
 			}
 		});
 		fillReservationNew();
-		fillReservationExisting();
+		fillReservationExisting(this.IDENTIFIER);
+		reservationNew.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		list.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 		frmHomePage.setVisible(true);
 	}
-
+	protected int getid() {
+		return this.IDENTIFIER;
+	}
 	protected ArrayList<String[]> search_values_source(String[][] content, String text) {
 		ArrayList<String[]> res = new ArrayList<String[]>();
 		
@@ -516,7 +532,7 @@ public class HomePage {
 		if(ticketList == null) {
 			list.setVisible(true);
 			list.setBackground(new Color(66, 182, 245));
-			String[] title = {"Date départ", "Heure d'Embarquement", "Heure Décollage","Durée","Siège","Status"};
+			String[] title = {"Date D", "De", "Vers","Durée","Siège","Status"};
 			String[][] vals = {{"1","1","1","1","1","1"}};
 			list = new JTable(vals,title){
 		        private static final long serialVersionUID = 1L;
@@ -556,8 +572,25 @@ public class HomePage {
 			));
 		
 	}
-	protected void fillReservationExisting(){
-		ArrayList<String[]> body = dbh.getflightsBooked();
+	protected void fillReservationExisting(int id){
+		
+		if(corps_booked == null) {
+			
+			
+		}else {
+			if(corps_booked.length==0) {
+				list.setVisible(false);
+				scrollPane.setVisible(false);
+				
+			}else {
+				list.setVisible(true);
+				scrollPane.setVisible(true);
+				
+				
+				
+			}
+		}
+		ArrayList<String[]> body = dbh.getflightsBooked(id);
 		String[][] corps = new String[body.size()][6];
 		//reservationNew.addColumn(new TableColumn());
 		int i = 0;
@@ -567,6 +600,17 @@ public class HomePage {
 			i++;
 		}
 		this.corps_booked=corps;
+		if(corps_booked.length==0) {
+			list.setVisible(false);
+			scrollPane.setVisible(false);
+			
+		}else {
+			list.setVisible(true);
+			scrollPane.setVisible(true);
+			
+			
+			
+		}
 		list.setModel(new DefaultTableModel(
 				corps,
 				new String[] {"Date départ", "Heure d'Embarquement", "Heure Décollage","Durée","Siège","Status"}

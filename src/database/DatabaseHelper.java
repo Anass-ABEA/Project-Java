@@ -172,7 +172,7 @@ public class DatabaseHelper {
 				row[2]=rs.getString(3).substring(0,16);
 				row[3]=rs.getString(4);
 				row[4]=rs.getString(5);
-				row[5]=rs.getString(6);
+				row[5]=rs.getString(6).substring(0,5);;
 				row[6]=rs.getString(7);
 				res.add(row);
 			}
@@ -184,10 +184,11 @@ public class DatabaseHelper {
 		return res;
 	}
 
-	public ArrayList<String[]> getflightsBooked() {
+	public ArrayList<String[]> getflightsBooked(int iDENTIFIER) {
 		String[] row = new String[8];
 		ArrayList<String[]> res = new ArrayList<String[]>();
-		ResultSet rs = this.executeSql("SELECT * from reservationbooked;");
+		ResultSet rs = this.executeSql("SELECT * from reservationbooked WHERE id_user = "+String.valueOf(iDENTIFIER));
+		System.out.println();
 		
 		try {
 			while (rs.next()) {
