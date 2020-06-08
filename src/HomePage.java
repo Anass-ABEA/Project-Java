@@ -17,8 +17,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -41,6 +46,16 @@ public class HomePage {
 	private String[][] corps_booked=null;
 	private int IDENTIFIER;
 	private JScrollPane scrollPane;
+	private JLabel flight_id;
+	private JLabel DateD;
+	private JLabel DateA;
+	private JLabel AD;
+	private JLabel AA;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_4_1;
+	private ArrayList<String[]> arraycorps_new;
+	
 	
 	
 
@@ -52,7 +67,7 @@ public class HomePage {
 			public void run() {
 				try {
 					
-					HomePage window = new HomePage(2);
+					HomePage window = new HomePage(1);
 					window.frmHomePage.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -188,10 +203,10 @@ public class HomePage {
 		});
 		
 		book.setVisible(false);
-		book.setBounds(700,619,154,62);
+		book.setBounds(12,628,115,44);
 		reg.setBounds(902,619,154,62);
-		frmHomePage.add(book);
-		frmHomePage.add(reg);
+		frmHomePage.getContentPane().add(book);
+		frmHomePage.getContentPane().add(reg);
 		nom.setHorizontalAlignment(SwingConstants.CENTER);
 		prenom.setHorizontalAlignment(SwingConstants.CENTER);
 		passport.setHorizontalAlignment(SwingConstants.CENTER);
@@ -431,10 +446,38 @@ public class HomePage {
 				passport.setFont(new Font("Tahoma", Font.BOLD, 13));
 			}
 		});
+		
+		JButton annuler = new JButton("ANNULER");
+		annuler.setBounds(234, 13, 97, 30);
+		panel_2.add(annuler);
+		annuler.setVisible(false);
+		
+		list.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	            if (me.getClickCount() == 1) {     // to detect doble click events
+	            	annuler.setVisible(true);
+	            	JTable target = (JTable)me.getSource();
+	               	int row = target.getSelectedRow(); 
+	               	
+	               	
+	               		
+               		if (((String)list.getValueAt(row, 5)).contains("N"))  {
+               			annuler.setEnabled(true);
+               			annuler.setToolTipText("Annuler Votre Réservations");
+               		}else {
+               			annuler.setEnabled(false);
+               			annuler.setToolTipText("Vous Ne Pouvez Pas Annuler Les Billets Validés");
+               		}
+	               	
+	   
+	            }
+	         }
+	      });
+		
 		find.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(findMe.getText().length()!=0) {
-					
+					annuler.setVisible(false);
 					cancel.setVisible(true);
 					if(corps_booked==null) {
 						list.setVisible(false);
@@ -453,10 +496,33 @@ public class HomePage {
 				
 			}
 		});
+		reservationNew.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	            if (me.getClickCount() == 1) {     // to detect doble click events
+	            	JTable target = (JTable)me.getSource();
+	               	int row = target.getSelectedRow(); 
+	               	for( String[] str:arraycorps_new) {
+	               		//System.out.println("start: "+str[1]+" end "+str[2]);
+	               		if (str[1].equals((String)reservationNew.getValueAt(row, 0)) && str[2].equals((String)reservationNew.getValueAt(row, 1))) {
+	               			flight_id.setText( str[0]);
+	               		}
+	               	}
+	               	
+		       		DateD.setText((String)reservationNew.getValueAt(row, 0));
+		       		AD.setText((String)reservationNew.getValueAt(row, 2));
+		       		AA.setText((String)reservationNew.getValueAt(row, 3));
+		       		DateA.setText((String)reservationNew.getValueAt(row, 1));
+		       		labels_visibility(true);
+		       		book.setVisible(true);
+	             
+	            }
+	         }
+	      });
+		
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancel.setVisible(false);
-				
+				annuler.setVisible(false);
 				findMe.setText("");
 				int id = getid();
 				fillReservationExisting(id);
@@ -465,6 +531,8 @@ public class HomePage {
 		
 		find_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				labels_visibility(false);
+				book.setVisible(false);
 				if (!from.getText().equals("")) {
 					clear_from.setVisible(true);
 					
@@ -481,6 +549,8 @@ public class HomePage {
 				fillReservationNew();
 				from.setText("");
 				clear_from.setVisible(false);
+				labels_visibility(false);
+				book.setVisible(false);
 				
 			}
 		});
@@ -489,6 +559,8 @@ public class HomePage {
 				fillReservationNew();
 				to.setText("");
 				clear_to.setVisible(false);
+				labels_visibility(false);
+				book.setVisible(false);
 			}
 		});
 		fillReservationNew();
@@ -496,8 +568,57 @@ public class HomePage {
 		reservationNew.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		list.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
+		
+		
+		flight_id = new JLabel("New label");
+		flight_id.setBounds(135, 648, 200, 30);
+		frmHomePage.getContentPane().add(flight_id);
+		
+		 DateD = new JLabel("New label");
+		DateD.setBounds(412, 619, 143, 30);
+		frmHomePage.getContentPane().add(DateD);
+		
+		 AD = new JLabel("New label");
+		AD.setBounds(412, 655, 168, 30);
+		frmHomePage.getContentPane().add(AD);
+		
+		 AA = new JLabel("New label");
+		AA.setBounds(660, 655, 223, 30);
+		frmHomePage.getContentPane().add(AA);
+		
+		 DateA = new JLabel("New label");
+		DateA.setBounds(660, 619, 143, 30);
+		frmHomePage.getContentPane().add(DateA);
+		
+		 lblNewLabel_3 = new JLabel("ID Du Vol : ");
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_3.setBounds(135, 625, 73, 16);
+		frmHomePage.getContentPane().add(lblNewLabel_3);
+		
+		 lblNewLabel_4 = new JLabel("Depart :");
+		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_4.setBounds(357, 642, 56, 16);
+		frmHomePage.getContentPane().add(lblNewLabel_4);
+		
+		 lblNewLabel_4_1 = new JLabel("Arriv\u00E9e :");
+		lblNewLabel_4_1.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_4_1.setBounds(600, 642, 56, 16);
+		frmHomePage.getContentPane().add(lblNewLabel_4_1);
+		labels_visibility(false);
 		frmHomePage.setVisible(true);
 	}
+	private void labels_visibility(boolean b) {
+		flight_id.setVisible(b);
+		DateD.setVisible(b);
+		AD.setVisible(b);
+		AA.setVisible(b);
+		DateA.setVisible(b);
+		lblNewLabel_3.setVisible(b);
+		lblNewLabel_4.setVisible(b);
+		lblNewLabel_4_1.setVisible(b);
+		
+	}
+
 	protected int getid() {
 		return this.IDENTIFIER;
 	}
@@ -555,6 +676,7 @@ public class HomePage {
 	}
 	protected void fillReservationNew(){
 		ArrayList<String[]> body = dbh.getflights();
+		this.arraycorps_new =body;
 		String[][] corps = new String[body.size()][6];
 		//reservationNew.addColumn(new TableColumn());
 		int i = 0;
