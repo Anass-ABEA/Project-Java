@@ -169,31 +169,18 @@ public class HomePage {
 		prenom.setText(infoList.get(1));
 		passport.setText(infoList.get(2));
 		
-		Box horizontalBox = Box.createHorizontalBox();
-		horizontalBox.setBounds(55, 619, 966, 45);
-		frmHomePage.getContentPane().add(horizontalBox);
 		
-		JPanel panel_1 = new JPanel();
-		horizontalBox.add(panel_1);
-		panel_1.setLayout(new GridLayout(0,4,120,50));
 		
-		JButton btnNewButton = new JButton("New button");
-		panel_1.add(btnNewButton, BorderLayout.WEST);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel_1.add(btnNewButton_1, BorderLayout.CENTER);
-		
-		JButton btnNewButton_2 = new JButton("New button");
-		panel_1.add(btnNewButton_2, BorderLayout.EAST);
-		
-		JButton btnNewButton_3 = new JButton("DECONNEXION");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton reg = new JButton("DECONNEXION");
+		reg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmHomePage.dispose();
 				new Login();
 			}
 		});
-		panel_1.add(btnNewButton_3);
+		reg.setBounds(902,619,154,62);
+		frmHomePage.add(reg);
 		nom.setHorizontalAlignment(SwingConstants.CENTER);
 		prenom.setHorizontalAlignment(SwingConstants.CENTER);
 		passport.setHorizontalAlignment(SwingConstants.CENTER);
@@ -349,6 +336,10 @@ public class HomePage {
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton find_new = new JButton("");
+		find_new.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		find_new.setIcon(new ImageIcon("img\\loupe_small.png"));
 		find_new.setOpaque(false);
 		find_new.setContentAreaFilled(false);
@@ -375,6 +366,8 @@ public class HomePage {
 		clear_to.setIcon(new ImageIcon("img\\x_small.png"));
 		clear_to.setBounds(829, 12, 25, 25);
 		panel_2_1.add(clear_to);
+		clear_from.setVisible(false);
+		clear_to.setVisible(false);
 		edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				prenom.setHorizontalAlignment(SwingConstants.LEADING);
@@ -437,6 +430,32 @@ public class HomePage {
 			}
 		});
 		//fill_reservation(list,ticketList);
+		find_new.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!from.getText().equals("")) {
+					clear_from.setVisible(true);
+				}
+				if (!to.getText().equals("")) {
+					clear_to.setVisible(true);
+				}
+				//perform the search and refresh the JTable.
+			}
+		});
+		clear_from.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				from.setText("");
+				clear_from.setVisible(false);
+				
+			}
+		});
+		clear_to.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				to.setText("");
+				clear_to.setVisible(false);
+			}
+		});
+		
+		
 		frmHomePage.setVisible(true);
 	}
 
