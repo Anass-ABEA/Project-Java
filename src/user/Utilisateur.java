@@ -8,8 +8,13 @@ public class Utilisateur{
 // le constructeur:
   public Utilisateur(String pLogin, String  pPWD){
     this.Login = pLogin;
-    this.PWD = pPWD;
+    this.PWD = encrypt(pPWD,pLogin);
   }
+
+private String encrypt(String pPWD, String pLogin) {
+																					/// INCOMPLETE
+	return pPWD;
+}
 
 //Getters:
   public String getLogin(){

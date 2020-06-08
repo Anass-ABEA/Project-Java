@@ -15,6 +15,13 @@ protected String adresse;
     this.prenom = prenom;
     this.adresse = adresse;
   }
+  public Voyageur(Utilisateur e,String passeport ,String nom ,String prenom ,String adresse){
+	    super(e.getLogin(),e.getPWD());
+	    this.passeport = passeport;
+	    this.nom = nom;
+	    this.prenom = prenom;
+	    this.adresse = adresse;
+	  }
 
 //Getters:
 public String getPasseport(){

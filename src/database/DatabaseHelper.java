@@ -2,6 +2,9 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 
+import user.Utilisateur;
+import user.Voyageur;
+
 
 public class DatabaseHelper {
 	Connection conn = null;
@@ -58,7 +61,11 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 	}
-	public int connect_user(String name,String pass){
+	public int connect_user(Utilisateur u){
+		String name;
+		String pass;
+		name = u.getLogin();
+		pass= u.getPWD();
 		int allow =-1;
 		
 		try {
@@ -78,8 +85,14 @@ public class DatabaseHelper {
 		return allow;
 	}
 
-	public int addNewUser(String u, String p, String pname, String fname, String passPort, String adress) {
-		
+	public int addNewUser(Voyageur v) {
+		String u; String p;String pname; String fname; String passPort; String adress;
+		u=v.getLogin();
+		p=v.getPWD();
+		fname=v.getNom();
+		pname=v.getPrenom();
+		adress=v.getAdresse();
+		passPort=v.getPasseport();
 		this.executeModif("INSERT INTO Utilisateur (login,pass,admin)values ('"+u+"','"+p+"',0);");
 		this.executeSql("commit;");
 		ResultSet rs = this.executeSql("SELECT ID from Utilisateur where login ='"+u+"' and pass ='"+p+"';");
@@ -144,5 +157,56 @@ public class DatabaseHelper {
 			
 			e1.printStackTrace();
 		}
+	}
+
+	public ArrayList<String[]> getflights() {
+		String[] row = new String[7];
+		ArrayList<String[]> res = new ArrayList<String[]>();
+		ResultSet rs = this.executeSql("SELECT * from reservationnew;");
+		
+		try {
+			while (rs.next()) {
+				row = new String[7];
+				row[0]=rs.getString(1);
+				row[1]=rs.getString(2).substring(0,16);
+				row[2]=rs.getString(3).substring(0,16);
+				row[3]=rs.getString(4);
+				row[4]=rs.getString(5);
+				row[5]=rs.getString(6);
+				row[6]=rs.getString(7);
+				res.add(row);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	public ArrayList<String[]> getflightsBooked() {
+		String[] row = new String[8];
+		ArrayList<String[]> res = new ArrayList<String[]>();
+		ResultSet rs = this.executeSql("SELECT * from reservationbooked;");
+		
+		try {
+			while (rs.next()) {
+				row = new String[8];
+				row[0]=rs.getString(1);
+				row[1]=rs.getString(2);
+				row[2]=rs.getString(3).substring(0,16);
+				row[3]=rs.getString(4);
+				row[4]=rs.getString(5);
+				row[5]=rs.getString(6).substring(0,5);
+				row[6]=rs.getString(7);
+				row[7]=rs.getString(8);
+				res.add(row);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return res;
 	}
 }

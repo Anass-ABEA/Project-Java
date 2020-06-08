@@ -22,6 +22,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import database.DatabaseHelper;
+import user.Utilisateur;
+import user.Voyageur;
 
 import java.awt.Rectangle;
 import javax.swing.JPanel;
@@ -43,6 +45,8 @@ public class Register extends JFrame{
 	private JTextField passport;
 	private JTextField adr;
 	private JTextField nom;
+	private Utilisateur uInstance;
+	private Voyageur vInstance;
 
 	private String U,P,CP;
 	/**
@@ -229,11 +233,12 @@ public class Register extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					U=username.getText();
 					P=pass1.getText();
+					Utilisateur u = new Utilisateur(U,P);
 					updateLocalval(U,P);
-					System.out.println(U+" "+P);
+					//System.out.println(U+" "+P);
 					CP=pass2.getText();
 					if (!U.equals("")) {
-						int res = dbh.connect_user(U,P);
+						int res = dbh.connect_user(u);
 						if (res<0) {
 							frame.dispose();
 							initialize(false);
@@ -343,15 +348,18 @@ public class Register extends JFrame{
 			
 			sign.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Voyageur v ;
 					String Pname,Fname,PassPort,Adress;
 					if (prenom.getText().equals("") || nom.getText().equals("")||passport.getText().equals("")||adr.getText().equals("")) {
 						JOptionPane.showMessageDialog(frame, "Vous avez laissé une des cases vides", "Attetion!!",JOptionPane.OK_OPTION);
+						
 					}else {
+						v= new Voyageur(uInstance,nom.getText(),prenom.getText(),passport.getText(),adr.getText());
 						Pname=prenom.getText();
 						Fname=nom.getText();
 						PassPort=passport.getText();
 						Adress = adr.getText();
-						int ID = dbh.addNewUser(U,P,Pname,Fname,PassPort,Adress);
+						int ID = dbh.addNewUser(v);
 						
 						new HomePage(ID);
 					}
@@ -527,8 +535,7 @@ public class Register extends JFrame{
 		
 	}
 	private void updateLocalval(String u, String p) {
-		this.U=u;
-		this.P=p;
+		this.uInstance = new Utilisateur(u,p);
 		
 	}
 	

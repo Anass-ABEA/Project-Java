@@ -23,6 +23,7 @@ import java.awt.Component;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import database.DatabaseHelper;
+import user.Utilisateur;
 
 
 public class Login  extends JFrame{
@@ -107,7 +108,7 @@ public class Login  extends JFrame{
 					show_options("You have entred empty fields.");
 					
 				}else {
-					int  b = dbh.connect_user(user, pass);
+					int  b = dbh.connect_user(new Utilisateur(user, pass));
 					if(b==-1) {
 						show_options("You have entred Wrong info.\nFeel fre to create an account!");
 					}else {
