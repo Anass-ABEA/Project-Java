@@ -160,7 +160,7 @@ public class HomePage {
 		
 	
 		edit.setIcon(new ImageIcon("img\\pen_small.png"));
-		edit.setBounds(141, 208, 50, 50);
+		edit.setBounds(123, 208, 50, 50);
 		edit.setOpaque(false);
 		edit.setContentAreaFilled(false);
 		edit.setBorderPainted(true);
