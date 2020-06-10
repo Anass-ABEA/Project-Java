@@ -55,6 +55,8 @@ public class HomePage {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_4_1;
 	private ArrayList<String[]> arraycorps_new;
+	private ArrayList<String[]> arraycorps_booked;
+	private int cancel ;
 	
 	
 	
@@ -229,23 +231,13 @@ public class HomePage {
 		lblVosRserveraions.setBounds(12, 13, 161, 30);
 		panel_2.add(lblVosRserveraions);
 		
-		findMe = new JTextField();
-		findMe.setBounds(495, 13, 116, 30);
-		panel_2.add(findMe);
-		findMe.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("RECHERCHE ");
-		lblNewLabel_2.setBounds(382, 13, 85, 30);
-		panel_2.add(lblNewLabel_2);
 		
-		JButton find = new JButton("");
 		
-		find.setIcon(new ImageIcon("img\\loupe_small.png"));
-		find.setBounds(623, 13, 34, 30);
-		panel_2.add(find);
-		find.setOpaque(false);
-		find.setContentAreaFilled(false);
-		find.setBorderPainted(false);
+		
+		
+		
+		
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 55, 641, 206);
@@ -275,17 +267,8 @@ public class HomePage {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 		
-		JButton cancel = new JButton("");
-		cancel.setFont(new Font("Times New Roman", Font.BOLD, 11));
-		cancel.setIcon(new ImageIcon("img\\x_small.png"));
-		cancel.setOpaque(false);
-		cancel.setContentAreaFilled(false);
-		cancel.setBorderPainted(true);
-		cancel.setBounds(461, 13, 25, 25);
 		
 		
-		panel_2.add(cancel);
-		cancel.setVisible(false);
 		list.setBounds(12, 55, 641, 206);
 		//panel_2.add(list);
 		
@@ -447,8 +430,17 @@ public class HomePage {
 			}
 		});
 		
-		JButton annuler = new JButton("ANNULER");
-		annuler.setBounds(234, 13, 97, 30);
+		JButton annuler = new JButton("ANNULER LA RESERVATION");
+		annuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int id = getId();
+				int row = getannuler();
+				ArrayList<String[]> booked = getbookedArray();
+				dbh.cancelBooking(booked.get(row)[0],booked.get(row)[1]);
+				fillReservationExisting(id);
+			}
+		});
+		annuler.setBounds(434, 13, 190, 30);
 		panel_2.add(annuler);
 		annuler.setVisible(false);
 		
@@ -458,6 +450,7 @@ public class HomePage {
 	            	annuler.setVisible(true);
 	            	JTable target = (JTable)me.getSource();
 	               	int row = target.getSelectedRow(); 
+	               	setannuler(row);
 	               	
 	               	
 	               		
@@ -474,28 +467,6 @@ public class HomePage {
 	         }
 	      });
 		
-		find.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(findMe.getText().length()!=0) {
-					annuler.setVisible(false);
-					cancel.setVisible(true);
-					if(corps_booked==null) {
-						list.setVisible(false);
-						noReservation_label.setVisible(true);
-					}else {
-						if(corps_booked.length==0) {
-							list.setVisible(false);
-							noReservation_label.setVisible(true);
-						}else {
-							list.setVisible(true);
-							noReservation_label.setVisible(false);
-							findReservation(findMe.getText());
-						}
-					}
-				}
-				
-			}
-		});
 		reservationNew.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
 	            if (me.getClickCount() == 1) {     // to detect doble click events
@@ -519,15 +490,7 @@ public class HomePage {
 	         }
 	      });
 		
-		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancel.setVisible(false);
-				annuler.setVisible(false);
-				findMe.setText("");
-				int id = getid();
-				fillReservationExisting(id);
-			}
-		});
+	
 		
 		find_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -713,6 +676,7 @@ public class HomePage {
 			}
 		}
 		ArrayList<String[]> body = dbh.getflightsBooked(id);
+		this.arraycorps_booked= body;
 		String[][] corps = new String[body.size()][6];
 		//reservationNew.addColumn(new TableColumn());
 		int i = 0;
@@ -743,5 +707,17 @@ public class HomePage {
 	protected void findReservation(String text) {
 		//incomplete
 		
+	}
+	private int getId() {
+		return this.IDENTIFIER;
+	}
+	private  void setannuler(int row) {
+		this.cancel= row;
+	}
+	private ArrayList<String[]> getbookedArray() {
+		return this.arraycorps_booked;
+	}
+	private int getannuler() {
+		return this.cancel;
 	}
 }

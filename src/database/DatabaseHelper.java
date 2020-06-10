@@ -210,4 +210,19 @@ public class DatabaseHelper {
 		
 		return res;
 	}
+
+	public void cancelBooking(String id, String idv) {
+		ResultSet rs = this.executeSql("SELECT idb FROM reservation where id_user="+id+" and idv = '"+idv+"';");
+		try {
+			if (rs.next()) {
+				int idb = rs.getInt(1);
+				this.executeModif("DELETE FROM billet where idb = "+String.valueOf(idb));
+				//this.executeModif("DELETE FROM reservation where  id_user="+id+" and idv = '"+idv+"'and idb = "+String.valueOf(idb)+";");
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		//this.executeModif("");
+	}
 }
