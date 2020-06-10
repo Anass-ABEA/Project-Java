@@ -45,6 +45,7 @@ public class Book {
 	private JTextField textField_9;
 	private int coord_x,coord_y;
 	private boolean clicked=false;
+	private ArrayList<ArrayList> list= new ArrayList<ArrayList>();
 
 	/**
 	 * Launch the application.
@@ -85,33 +86,37 @@ public class Book {
 		frmRservezVotrePlace.getContentPane().setLayout(null);
 		
 		JProgressBar progressBar = new JProgressBar();
-		progressBar.setForeground(new Color(0, 51, 255));
+		progressBar.setForeground(new Color(0, 153, 51));
 		progressBar.setValue(36);
 		progressBar.setBounds(12, 13, 1190, 13);
 		frmRservezVotrePlace.getContentPane().add(progressBar);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
 		panel_3.setBounds(12, 39, 1190, 601);
 		frmRservezVotrePlace.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
 		panel_4.setBounds(12, 191, 1166, 294);
 		ArrayList<Box> listBox = new ArrayList<Box>();
 		ArrayList<Object> listrow = new ArrayList<Object>();
 		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
 		flowLayout.setAlignOnBaseline(true);
 		panel_6.setBounds(12, 191, number_of_rows*35, 294);
 		
 		JLabel head = new JLabel("");
 		head.setHorizontalAlignment(SwingConstants.CENTER);
-		head.setIcon(new ImageIcon("img\\head.png"));
+		head.setIcon(new ImageIcon("D:\\Project Java final\\Projet\\img\\head.png"));
 		
 		JLabel tail = new JLabel("");
 		head.setBounds(0,0,45,294);
+		
 		tail.setBounds(0,0,45,294);
-		addNumberOfRows(panel_6,number_of_rows);
+		addNumberOfRows(panel_6,number_of_rows);  				
 		panel_3.add(panel_4,BorderLayout.CENTER);
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
@@ -119,24 +124,24 @@ public class Book {
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(head)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 981, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-					.addComponent(tail)
-					.addContainerGap())
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addGap(998)
+							.addComponent(tail))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 981, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		gl_panel_4.setVerticalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, gl_panel_4.createSequentialGroup()
-							.addContainerGap(16, Short.MAX_VALUE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(head))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addGap(56)
-							.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(tail))))
+						.addComponent(tail, Alignment.TRAILING)
+						.addComponent(panel_6, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel_4.setLayout(gl_panel_4);
@@ -200,7 +205,8 @@ public class Book {
 				head.setIcon(new ImageIcon("img\\head.png"));
 				tail.setIcon(null);
 				head.setText("");
-				
+				tail.setText("");
+				update(panel_6,0);
 			}
 			
 		});
@@ -209,9 +215,10 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				head.setIcon(null);
-				head.setText("                                          " );
+				head.setText("                  " );
 				tail.setIcon(null);
-				
+				tail.setText("                  " );
+				update(panel_6,20);
 			}
 			
 		});
@@ -222,7 +229,8 @@ public class Book {
 				tail.setIcon(new ImageIcon("img\\tail.png"));
 				head.setIcon(null);
 				head.setText("");
-				
+				tail.setText("");
+				update(panel_6,40);
 			}
 			
 		});
@@ -449,8 +457,23 @@ public class Book {
 		frmRservezVotrePlace.setVisible(true);
 	}
 
+	protected void update(JPanel panel_6, int i) {
+		int count = 1;
+		for( ArrayList<Object> liste_objets : this.list) {
+			if(this.clicked && count-1 == this.coord_y) {
+				((JButton)liste_objets.get(this.coord_x)).setIcon(new ImageIcon("img\\seat_un.png"));
+				this.clicked=false;
+			}
+			((JLabel)liste_objets.get(3)).setText("   "+String.valueOf(count+i));
+			count++;
+		}
+		
+	}
+
 	private void addNumberOfRows(JPanel panel_4, int i) {
 		ArrayList<Box> listBox = new ArrayList<Box>();
+		
+		ArrayList<ArrayList> res = new  ArrayList<ArrayList>();
 		ArrayList<Object> listrow = new ArrayList<Object>();
 		for (int e =0; e<i;e++) {
 			
@@ -461,6 +484,7 @@ public class Book {
 			panel_4.add(listBox.get(e));
 			listrow = new ArrayList<Object>();
 			listrow = getlist(e+1);
+			res.add(listrow);
 			listBox.get(e).add((JButton)listrow.get(0));
 			listBox.get(e).add((JButton)listrow.get(1));
 			listBox.get(e).add((JButton)listrow.get(2));
@@ -470,7 +494,8 @@ public class Book {
 			listBox.get(e).add((JButton)listrow.get(6));
 			
 		}
-		
+		this.list=res;
+			
 	}
 
 
@@ -478,32 +503,39 @@ public class Book {
 	
 	private ArrayList<Object> getlist(int i) {
 		ArrayList<Object> listrow = new ArrayList<Object>();
-		listrow.add(new JButton(" "));
-		listrow.add(new JButton(" "));
+		listrow.add(new JButton(""));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		listrow.add(new JButton(""));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
 		//JButton btnNewButton = new JButton("  ");
 		//verticalBox_2.add(btnNewButton);
-		listrow.add(new JButton(" "));
+		listrow.add(new JButton(""));
 		//JButton btnNewButton_1 = new JButton("  ");
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
 		//verticalBox_2.add(btnNewButton_1);
 		listrow.add(new JLabel("   "+i));
 		
 		//JLabel lblNewLabel_5 = new JLabel("     1     ");
 		//verticalBox_2.add(lblNewLabel_5);
-		listrow.add(new JButton(" "));
+		listrow.add(new JButton(""));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
 		//JButton btnNewButton_2 = new JButton("  ");
 		//verticalBox_2.add(btnNewButton_2);
-		listrow.add(new JButton(" "));
-		listrow.add(new JButton(" "));
+		listrow.add(new JButton(""));
+		
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		listrow.add(new JButton(""));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
 	
 		((JButton) listrow.get(0)).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
-					unclick(get_x(),get_y());
+					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(0,i-1);
-				
+				((JButton) listrow.get(0)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -512,10 +544,10 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
-					unclick(get_x(),get_y());
+					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(1,i-1);
-				
+				((JButton) listrow.get(1)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -524,10 +556,10 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
-					unclick(get_x(),get_y());
+					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(2,i-1);
-				
+				((JButton) listrow.get(2)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -536,10 +568,10 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
-					unclick(get_x(),get_y());
+					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(4,i-1);
-				
+				((JButton) listrow.get(4)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -548,10 +580,10 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
-					unclick(get_x(),get_y());
+					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(5,i-1);
-				
+				((JButton) listrow.get(5)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -560,10 +592,12 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getclicked()) {
+					resetImage(get_x(),get_y());
 					unclick(get_x(),get_y());
+					
 				}
 				setcoord(6,i-1);
-				
+				((JButton) listrow.get(6)).setIcon(new ImageIcon("img\\seat_selected.png"));
 			}
 			
 		});
@@ -572,6 +606,12 @@ public class Book {
 		//verticalBox_2.add(btnNewButton_1_2);
 		return listrow;
 	}
+	protected void resetImage(int get_x, int get_y) {
+		((JButton)(this.list.get(get_y).get(get_x))).setIcon(new ImageIcon("img\\seat_un.png"));
+		
+		
+	}
+
 	private void setcoord(int x, int y) {
 		this.coord_x=x;
 		this.coord_y=y;
