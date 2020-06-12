@@ -9,22 +9,23 @@ public class Billet{
 
 // declaration des variables de la classe:
   protected int idBillet;
-  protected Date dateReservation;
-  protected Date dateVoyage;
-  protected Date dateArrivee;
+  protected String dateReservation;
+  protected String dateVoyage;
+  protected String dateArrivee;
   protected boolean etat;
 
   protected Vol vol ;
   protected Voyageur voyageur ;
   protected SiegeReserve siegeReserve;
 // le constructeur:
-public Billet(){
-
-  this.dateReservation = new Date();
+public Billet(String dateVoyage,String dateArrivee){
+		this.dateVoyage = dateVoyage;
+		this.dateArrivee = dateArrivee;
+  
 }
 
 // Surcharge du constructeur:
-public Billet(int idBillet,Date dateReservation,Date dateVoyage,Date dateArrivee,boolean etat){
+public Billet(int idBillet,String dateReservation,String dateVoyage,String dateArrivee,boolean etat){
   this.idBillet = idBillet;
   this.dateReservation = dateReservation;
   this.dateVoyage = dateVoyage;
@@ -32,20 +33,22 @@ public Billet(int idBillet,Date dateReservation,Date dateVoyage,Date dateArrivee
   this.etat = etat;
 }
 
+
+
 //Getters:
 public int getIdBillet(){
   return this.idBillet;
 }
 
-public Date getDateReservation(){
+public String getDateReservation(){
   return this.dateReservation;
 }
 
-public Date getDateVoyage(){
+public String getDateVoyage(){
   return this.dateVoyage;
 }
 
-public Date getDateArrivee(){
+public String getDateArrivee(){
   return this.dateArrivee;
 }
 
@@ -58,15 +61,15 @@ public void setetIdBillet(int idBillet){
   this.idBillet = idBillet;
 }
 
-public void setetDateReservation(Date dateReservation){
+public void setetDateReservation(String dateReservation){
   this.dateReservation = dateReservation;
 }
 
-public void setetDateVoyage(Date dateVoyage){
+public void setetDateVoyage(String dateVoyage){
   this.dateVoyage = dateVoyage;
 }
 
-public void setetDateArrivee(Date dateArrivee){
+public void setetDateArrivee(String dateArrivee){
   this.dateArrivee = dateArrivee;
 }
 

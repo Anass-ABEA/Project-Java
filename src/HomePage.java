@@ -83,7 +83,7 @@ public class HomePage {
 	 */
 	public HomePage(int ID) {
 		this.IDENTIFIER=ID;
-		System.out.println(ID);
+		//System.out.println(ID);
 		dbh= new DatabaseHelper();
 		dbh.connect();
 		initialize(ID);
@@ -160,7 +160,7 @@ public class HomePage {
 		
 	
 		edit.setIcon(new ImageIcon("img\\pen_small.png"));
-		edit.setBounds(123, 208, 50, 50);
+		edit.setBounds(141, 208, 50, 50);
 		edit.setOpaque(false);
 		edit.setContentAreaFilled(false);
 		edit.setBorderPainted(true);
@@ -200,7 +200,7 @@ public class HomePage {
 		book.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmHomePage.dispose();
-				// create new form for reservation                                        INCOMPLETE
+				startHomePage();
 			}
 		});
 		
@@ -355,7 +355,7 @@ public class HomePage {
 				for (int a = 0;a<liste.size();a++) {
 					content[a]=Arrays.copyOfRange(liste.get(a), 0, liste.get(a).length);
 				}
-				System.out.println(content.length);
+			//	System.out.println(content.length);
 				
 				DefaultTableModel dtm = new DefaultTableModel(
 						content,
@@ -570,6 +570,12 @@ public class HomePage {
 		labels_visibility(false);
 		frmHomePage.setVisible(true);
 	}
+	protected void startHomePage() {
+		String l = flight_id.getText();
+		new Book(l,this.IDENTIFIER);
+		
+	}
+
 	private void labels_visibility(boolean b) {
 		flight_id.setVisible(b);
 		DateD.setVisible(b);
@@ -600,7 +606,7 @@ public class HomePage {
 	protected ArrayList<String[]> search_values_destination(String[][] content, String text) {
 		ArrayList<String[]> res = new ArrayList<String[]>();
 		
-		System.out.println(text);
+		//System.out.println(text);
 		for(String[] e: content) {
 			if(e[3].toLowerCase().contains(text.toLowerCase())) {
 				res.add(e);

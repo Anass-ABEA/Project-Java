@@ -2,6 +2,8 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 
+import flights.Billet;
+import flights.Siege;
 import user.Utilisateur;
 import user.Voyageur;
 
@@ -121,6 +123,7 @@ public class DatabaseHelper {
 				res.add(rs.getString(2));
 				res.add(rs.getString(3));
 				res.add(rs.getString(5));
+				res.add(rs.getString(4));
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL ERROR for the query : "+"SELECT * from voyageur WHERE ID = "+String.valueOf(ID)+";");
@@ -224,5 +227,61 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		//this.executeModif("");
+	}
+
+	public ArrayList<String> getFlightInfo(String idv) {
+		ResultSet rs = this.executeSql("SELECT * FROM booking_list where idv='"+idv+"';");
+		ArrayList<String> res = new ArrayList<String>();
+		
+		try {
+			rs.next();
+			res.add(rs.getString(1));
+			res.add(rs.getString(2));
+			res.add(rs.getString(3));
+			res.add(rs.getString(4));
+			res.add(rs.getString(5));
+			res.add(""+rs.getInt(6));
+			res.add(""+rs.getInt(7));
+		} catch (SQLException e) {
+			System.out.println("ERROR executing SQL : "+"SELECT * FROM booking_list where idv='"+idv+"';");
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		return res;
+	}
+
+	public int getDistance(String idv) {
+		ResultSet rs = this.executeSql("SELECT distance from vol where idv ='"+idv+"';");
+		try {
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			return 0;
+		}
+		
+		
+	}
+
+	public void addReservation(Siege s, Billet b2, int identifier, String idv) {
+		this.executeModif("INSERT INTO Siege (type,place) values ('"+s.getType()+"','"+s.getPlace()+"');");
+		this.executeModif("INSERT INTO BILLET (dateVoyage,dateArrivee) values ('"+b2.getDateVoyage()+"','"+b2.getDateArrivee()+"');");
+		ResultSet rs = this.executeSql("SELECT max(idb) from BILLET; ");
+		ResultSet rs2 = this.executeSql("SELECT max(ids) from Siege; ");
+		int idb = 0;
+		int ids = 0;
+		try {
+			rs.next() ;  idb =  rs.getInt(1);
+			rs2.next();  ids = rs2.getInt(1);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		this.executeModif("INSERT INTO reservation values ('"+idv+"',"+identifier+","+ids+","+idb+");");
+		
 	}
 }
