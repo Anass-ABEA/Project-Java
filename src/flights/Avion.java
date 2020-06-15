@@ -18,6 +18,11 @@ public Avion(){
 	  this.nb_place = 0;
 }
 
+public Avion(String text, String text2, String text3) {
+	this.idAvion = Integer.parseInt(text);
+	  this.compagnie = text2;
+	  this.nb_place = Integer.parseInt(text3);
+}
 //Getters:
 public int getIdAvion(){
     return this.idAvion;

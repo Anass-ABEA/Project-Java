@@ -360,7 +360,7 @@ public class Register extends JFrame{
 						PassPort=passport.getText();
 						Adress = adr.getText();
 						int ID = dbh.addNewUser(v);
-						
+						frame.dispose();
 						new HomePage(ID);
 					}
 					

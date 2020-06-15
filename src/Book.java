@@ -73,7 +73,7 @@ public class Book {
 	private JTextField to_aero;
 	private JLabel seat;
 	private JLabel price;
-	private int[] premium = {2,3,4,5,28,29,30,31,32};
+	private int[] premium = {2,3,4,22,23,24,42,43,44};
 	private JLabel YY;
 	private JButton F;
 	private JButton E;
@@ -406,7 +406,7 @@ public class Book {
 		type.setBounds(226, 141, 111, 33);
 		panel_8.add(type);
 		panel_7.add(btnNewButton);
-		frmRservezVotrePlace.getContentPane().add(panel_7);
+		frmRservezVotrePlace.getContentPane().add(panel_7);								
 		panel_7.setLayout(null);
 		
 		JButton btnChangerLeSige = new JButton("Changer Le Si\u00E8ge");
@@ -846,7 +846,7 @@ public class Book {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frmRservezVotrePlace.setBounds(100, 100, 988, 703);
-				progressBar.setBounds(12, 13, 1190, 13);
+				progressBar.setBounds(12, 13, 957, 13);
 				progressBar.setValue(80);
 				panel.setVisible(false);
 				panel_3.setVisible(false);
@@ -942,6 +942,39 @@ public class Book {
 		panel_7.setVisible(false);
 		panel_10.setVisible(false);
 		backhome.setVisible(false);
+		updateAddBooked(panel_6,0);
+		
+		JLabel lblNewLabel_7 = new JLabel("Informations : ");
+		lblNewLabel_7.setBounds(150, 500, 89, 45);
+		panel_3.add(lblNewLabel_7);
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon("img\\seat_prem.png"));
+		btnNewButton_1.setBounds(330, 500, 45, 45);
+		panel_3.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_2 = new JButton("");
+		btnNewButton_1_2.setIcon(new ImageIcon("img\\seat_un.png"));
+		btnNewButton_1_2.setBounds(514, 502, 45, 45);
+		panel_3.add(btnNewButton_1_2);
+		
+		JButton btnNewButton_1_3 = new JButton("");
+		btnNewButton_1_3.setEnabled(false);
+		btnNewButton_1_3.setIcon(new ImageIcon("img\\seat_full.png"));
+		btnNewButton_1_3.setBounds(774, 502, 45, 45);
+		panel_3.add(btnNewButton_1_3);
+		
+		JLabel lblNewLabel_9 = new JLabel("1\u00E8re classe");
+		lblNewLabel_9.setBounds(319, 559, 115, 16);
+		panel_3.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("Economique");
+		lblNewLabel_10.setBounds(501, 559, 89, 16);
+		panel_3.add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("R\u00E9serv\u00E9");
+		lblNewLabel_11.setBounds(774, 559, 56, 16);
+		panel_3.add(lblNewLabel_11);
 		
 	}
 
@@ -1033,7 +1066,7 @@ public class Book {
 		int temp = dbh.getDistance(idv);
 		boolean exists = false;
 		for (int e : this.premium) {
-			if (e==this.coord_y) {
+			if (e-1==this.coord_y) {
 				exists = true;
 			}
 		}
@@ -1084,15 +1117,99 @@ public class Book {
 	protected void update(JPanel panel_6, int i) {
 		int count = 1;
 		for( ArrayList<Object> liste_objets : this.list) {
-			if(this.clicked && count-1 == this.coord_y) {
-				((JButton)liste_objets.get(this.coord_x)).setIcon(new ImageIcon("img\\seat_un.png"));
+			
+			
+				boolean exists = false;
+				for (int e : this.premium) {
+					if (e==count+i) {
+						exists = true;
+					}
+				}
+				//System.out.println("row number "+(count+i));
+				String s = "";
+				if (exists ) {
+					s= "img\\seat_prem.png";
+					((JButton)liste_objets.get(0)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(1)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(2)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(4)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(5)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(6)).setIcon(new ImageIcon(s));
+					
+					((JButton)liste_objets.get(0)).setEnabled(true);
+					((JButton)liste_objets.get(1)).setEnabled(true);
+					((JButton)liste_objets.get(2)).setEnabled(true);
+					((JButton)liste_objets.get(4)).setEnabled(true);
+					((JButton)liste_objets.get(5)).setEnabled(true);
+					((JButton)liste_objets.get(6)).setEnabled(true);
+				}else {
+					s= "img\\seat_un.png";
+					((JButton)liste_objets.get(0)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(1)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(2)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(4)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(5)).setIcon(new ImageIcon(s));
+					((JButton)liste_objets.get(6)).setIcon(new ImageIcon(s));
+					
+					((JButton)liste_objets.get(0)).setEnabled(true);
+					((JButton)liste_objets.get(1)).setEnabled(true);
+					((JButton)liste_objets.get(2)).setEnabled(true);
+					((JButton)liste_objets.get(4)).setEnabled(true);
+					((JButton)liste_objets.get(5)).setEnabled(true);
+					((JButton)liste_objets.get(6)).setEnabled(true);
+				}
+				
 				this.clicked=false;
-			}
+			
 			((JLabel)liste_objets.get(3)).setText("   "+String.valueOf(count+i));
 			count++;
 		}
+		updateAddBooked(panel_6,(int)i/20);
 		
 	}
+	
+	
+	protected void updateAddBooked(JPanel panel_6, int i) {
+	
+		ArrayList<int[]> coord = dbh.getcoords(this.idv);
+		
+		
+		for (int[] couple_Ai : coord) {
+			System.out.println("coords selected "+couple_Ai[0]+" "+couple_Ai[1]);
+			if(i == 0) {
+				if(couple_Ai[1]<20) {
+					((JButton)(this.list.get(couple_Ai[1]).get(couple_Ai[0]))).setIcon(new ImageIcon("img\\seat_full.png"));
+					((JButton)(this.list.get(couple_Ai[1]).get(couple_Ai[0]))).setEnabled(false);;
+				} 
+
+				
+			} else 
+			if(i == 1) {
+				if(couple_Ai[1]>=20 && couple_Ai[1]<40) {
+					((JButton)(this.list.get(couple_Ai[1]-20).get(couple_Ai[0]))).setIcon(new ImageIcon("img\\seat_full.png"));
+					((JButton)(this.list.get(couple_Ai[1]-20).get(couple_Ai[0]))).setEnabled(false);;
+				}
+
+				
+			}else 
+
+			if(i == 2) {
+				
+				if(couple_Ai[1]>=40) {
+					((JButton)(this.list.get(couple_Ai[1]-40).get(couple_Ai[0]))).setIcon(new ImageIcon("img\\seat_full.png"));
+					((JButton)(this.list.get(couple_Ai[1]-40).get(couple_Ai[0]))).setEnabled(false);;
+				}
+			}
+			
+
+		}
+		
+		
+		
+	}
+	
+
+	
 
 	private void addNumberOfRows(JPanel panel_4, int i) {
 		ArrayList<Box> listBox = new ArrayList<Box>();
@@ -1130,30 +1247,37 @@ public class Book {
 	
 	private ArrayList<Object> getlist(int i,int extra) {
 		ArrayList<Object> listrow = new ArrayList<Object>();
+		String  s =nameImage(i-1+extra*20 );
+		String S ="";
+		if(s.contains("taken")) {
+			S="seat_prem";
+		}else {
+			S="seat_un";
+		}
 		listrow.add(new JButton(""));
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
 		listrow.add(new JButton(""));
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
 		//JButton btnNewButton = new JButton("  ");
 		//verticalBox_2.add(btnNewButton);
 		listrow.add(new JButton(""));
 		//JButton btnNewButton_1 = new JButton("  ");
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
 		//verticalBox_2.add(btnNewButton_1);
 		listrow.add(new JLabel("   "+i));
 		
 		//JLabel lblNewLabel_5 = new JLabel("     1     ");
 		//verticalBox_2.add(lblNewLabel_5);
 		listrow.add(new JButton(""));
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
 		//JButton btnNewButton_2 = new JButton("  ");
 		//verticalBox_2.add(btnNewButton_2);
 		listrow.add(new JButton(""));
 		
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
 		listrow.add(new JButton(""));
-		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\seat_un.png"));
-	
+		((JButton)listrow.get(listrow.size()-1)).setIcon(new ImageIcon("img\\"+S+".png"));
+		
 		((JButton) listrow.get(0)).addActionListener(new ActionListener() {
 
 			@Override
@@ -1162,7 +1286,7 @@ public class Book {
 					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(0,i-1+extra*20);
-				((JButton) listrow.get(0)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				((JButton) listrow.get(0)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1174,7 +1298,7 @@ public class Book {
 					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(1,i-1+extra*20);
-				((JButton) listrow.get(1)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				((JButton) listrow.get(1)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1186,7 +1310,7 @@ public class Book {
 					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(2,i-1+extra*20);
-				((JButton) listrow.get(2)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				((JButton) listrow.get(2)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1198,7 +1322,7 @@ public class Book {
 					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(4,i-1+extra*20);
-				((JButton) listrow.get(4)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				((JButton) listrow.get(4)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1210,7 +1334,7 @@ public class Book {
 					unclick(get_x(),get_y());resetImage(get_x(),get_y());
 				}
 				setcoord(5,i-1+extra*20);
-				((JButton) listrow.get(5)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				((JButton) listrow.get(5)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1224,7 +1348,8 @@ public class Book {
 					
 				}
 				setcoord(6,i-1+extra*20);
-				((JButton) listrow.get(6)).setIcon(new ImageIcon("img\\seat_selected.png"));
+				
+				((JButton) listrow.get(6)).setIcon(new ImageIcon("img\\"+s+".png"));
 			}
 			
 		});
@@ -1233,8 +1358,35 @@ public class Book {
 		//verticalBox_2.add(btnNewButton_1_2);
 		return listrow;
 	}
+	protected String nameImage(int r ) {
+		boolean exists = false;
+		for (int e : this.premium) {
+			if (e==r+1+(20*this.selected_radio)) {
+				exists = true;
+			}
+		}
+		//System.out.println("row number "+get_x);
+		if (exists ) {
+			return "seat_taken";
+		}else {
+			return "seat_selected";
+		}
+	}
 	protected void resetImage(int get_x, int get_y) {
-		((JButton)(this.list.get(get_y).get(get_x))).setIcon(new ImageIcon("img\\seat_un.png"));
+		
+		boolean exists = false;
+		for (int e : this.premium) {
+			if (e-1==get_y+(20*this.selected_radio)) {
+				exists = true;
+			}
+		}
+	
+		if (exists ) {
+			((JButton)(this.list.get(get_y).get(get_x))).setIcon(new ImageIcon("img\\seat_prem.png"));
+		}else {
+			((JButton)(this.list.get(get_y).get(get_x))).setIcon(new ImageIcon("img\\seat_un.png"));
+		}
+		
 		
 		
 	}

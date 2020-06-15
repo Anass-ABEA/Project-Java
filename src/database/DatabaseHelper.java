@@ -2,8 +2,10 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 
+import flights.Avion;
 import flights.Billet;
 import flights.Siege;
+import flights.Vol;
 import user.Utilisateur;
 import user.Voyageur;
 
@@ -34,7 +36,7 @@ public class DatabaseHelper {
 		ResultSet res = null;
 		this.refresh_statment();
 		try {
-			res = st.executeQuery(sql); // EXECUTE SQL QUERY
+			res = st.executeQuery(sql); // EXECUTE SQL QUERY (select only)
 			return res;
 		} catch (Exception e) {
 			System.out.println("SQL ERROR for the query : "+sql);
@@ -46,7 +48,7 @@ public class DatabaseHelper {
 		ResultSet res = null;
 		this.refresh_statment();
 		try {
-			st.executeUpdate(sql); // EXECUTE SQL QUERY
+			st.executeUpdate(sql); // EXECUTE SQL QUERY (insert and update)
 			
 		} catch (Exception e) {
 			System.out.println("SQL ERROR for the query : "+sql);
@@ -54,15 +56,7 @@ public class DatabaseHelper {
 		}
 		 
 	}
-	public void inserSql(String sql) {
-		this.refresh_statment();
-		try {
-			st.executeQuery(sql);
-		} catch (SQLException e) {
-			System.out.println("SQL ERROR for the query : "+sql);
-			e.printStackTrace();
-		}
-	}
+	
 	public int connect_user(Utilisateur u){
 		String name;
 		String pass;
@@ -284,4 +278,217 @@ public class DatabaseHelper {
 		this.executeModif("INSERT INTO reservation values ('"+idv+"',"+identifier+","+ids+","+idb+");");
 		
 	}
+
+	public ArrayList<int[]> getcoords(String idv) {
+		ArrayList<int[]> res = new ArrayList<int[]>();
+		ResultSet rs = this.executeSql("SELECT place from reservationseats where idv = '"+idv+"';");
+		System.out.println("SELECT place from reservationseats where idv = '"+idv+"';");
+		try {
+			while(rs.next()) {
+				
+				String s = rs.getString(1);
+				int x = Integer.parseInt(s.substring(0,1));
+				if (s.length()==3) {
+					 x = Integer.parseInt(s.substring(0,2));
+				}
+				
+				System.out.println("x = "+x);
+				int y =0;
+				switch (s.substring(1)) {
+				case "A":
+					y= 0;
+					break;
+				case "B":
+					y= 1;
+					break;
+				case "C":
+					y= 2;
+					break;
+				case "D":
+					y= 4;
+					break;
+				case "E":
+					y= 5;
+					break;
+				case "F":
+					y= 6;
+					break;
+				}
+				res.add(new int[] {y,x-1});
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<String> getLog() {
+		ArrayList<String> res = new ArrayList<String>();
+		
+		ResultSet rs = this.executeSql("SELECT date,text from logs order by date DESC;");
+		try {
+			while(rs.next()) {
+				res.add(rs.getString(1).substring(0,16)+ " :  "+rs.getString(2));
+			}
+		} catch (SQLException e) {
+			res = new ArrayList<String>();
+			res.add("THERE HAS BEEN A PROBLEM PLEASE TRY AGAIN LATER");
+		}
+		return res;
+	}
+
+	public String getbilletscount() {
+		int count = 0;
+		try {
+			ResultSet rs  = this.executeSql("SELECT COUNT(*) From billet where etat = 'NV' ;");
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			
+			
+		}
+		return String.valueOf(count);
+	}
+
+	public ArrayList<Avion> fillListe() {
+		ArrayList<Avion> liste =new ArrayList<Avion>();
+		
+		try {
+			ResultSet rs  = this.executeSql("SELECT * from Avion");
+			
+			while(rs.next()) {
+				liste.add(new Avion(rs.getInt(1),rs.getString(2),rs.getInt(3)));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return liste;
+	}
+
+	public void addnewavion(Avion avion,int id) {
+		this.executeModif("INSERT INTO avion values ("+avion.getIdAvion()+",'"+avion.getCompagnie()+"',"+avion.getNb_place()+
+				") ON DUPLICATE KEY UPDATE companie= '"+avion.getCompagnie()+"' , nb_place = "+avion.getNb_place()+" ;");
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin : "+id+" a modifié l'avion vers les caratéristiques : "+
+				"("+avion.getIdAvion()+",'"+avion.getCompagnie()+"',"+avion.getNb_place()+
+				")"+"\")");
+	}
+
+	public void deleteAvion(Avion avion,int id) {
+		
+		this.executeModif("DELETE FROM avion where ida = "+avion.getIdAvion());
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin : "+id+" a supprimé l'avion avec les caratéristiques : "+
+				"("+avion.getIdAvion()+",'"+avion.getCompagnie()+"',"+avion.getNb_place()+
+				")"+"\")");
+	}
+
+	public ArrayList<Vol> fillListeVol() {
+		ArrayList<Vol> liste = new ArrayList<Vol>();
+		try {
+			ResultSet rs  = this.executeSql("SELECT * from VOL");
+			
+			while(rs.next()) {
+				liste.add(new Vol(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return liste;
+	}
+
+	public void deleteVol(Vol vol, int id) {
+		this.executeModif("DELETE from VOL  where idv = '"+vol.getIdVol()+"';");
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin : "+id+" a supprimé le vol avec les caratéristiques : "+
+				"("+vol.getIdVol()+","+vol.getIdAvion()+","+vol.getHeurDepart()+","+vol.getHeurArrivee()+","+vol.getDuree()+","+
+				vol.getAeroportDepart()+","+vol.getAeroportArrivee()+","+vol.getDistance()+"\");");
+		
+	}
+
+	public void addnewvol(Vol vol, int id) {
+		this.executeModif("INSERT INTO VOL values "+"('"+vol.getIdVol()+"',"+vol.getIdAvion()+",'"+vol.getHeurDepart()+"','"+vol.getHeurArrivee()+"','"+vol.getDuree()+"','"+
+				vol.getAeroportDepart()+"','"+vol.getAeroportArrivee()+"',"+vol.getDistance()+") ON DUPLICATE KEY UPDATE ida = "+vol.getIdAvion()+", HeureDepart = '"+vol.getHeurDepart()+"', heureArrivee = '"+vol.getHeurDepart()+"', duree = '"+
+				vol.getDistance()+"',AeroportDepart = '"+vol.getAeroportDepart()+"',AeroportArrivee = '"+vol.getAeroportArrivee()+"',distance = "+vol.getDistance()+" ;");
+		
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin : "+id+" a modifié le vol vers les caratéristiques : "+
+				"("+vol.getIdVol()+","+vol.getIdAvion()+","+vol.getHeurDepart()+","+vol.getHeurArrivee()+","+vol.getDuree()+","+
+				vol.getAeroportDepart()+","+vol.getAeroportArrivee()+","+vol.getDistance()+"\");");
+		
+	}
+
+	public ArrayList<ArrayList<String>> getTablesContent() {
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		ResultSet rs = this.executeSql("SELECT * from GestionB;");
+		
+		try {
+			ArrayList<String> temp = new ArrayList<String>();
+			while (rs.next()) {
+				temp = new ArrayList<String>();
+				temp.add(rs.getString(3));
+				temp.add(rs.getString(1));
+				temp.add(rs.getString(2));
+				temp.add(rs.getString(4));
+				temp.add(rs.getString(5));
+				temp.add(rs.getString(7).substring(0,16));
+				temp.add(rs.getString(6));
+				
+				temp.add(rs.getString(8));
+				list.add(temp);
+			}
+		} catch (SQLException e) {
+		
+			return list;
+		}
+		return list;
+	}
+
+	public void validate(String string,int id) {
+		this.executeModif("UPDATE billet set etat = 'V' where idb = "+string);
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a validé le billet dont l'idb = "+string+"\")");
+		
+	}
+
+	public void unvalidate(String string, int id) {
+		this.executeModif("UPDATE billet set etat = 'NV' where idb = "+string);
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a annulé la validiation du billet dont l'idb = "+string+"\")");
+		
+	}
+
+	public ArrayList<ArrayList<String>> getUserList() {
+		ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+		ResultSet rs = this.executeSql("select id, login,admin from utilisateur");
+		ArrayList<String> temp = new ArrayList<String>();
+		try {
+			while(rs.next()) {
+				temp = new ArrayList<String>();
+				temp.add(rs.getString(1));
+				temp.add(rs.getString(2));
+				if (rs.getString(3).equals("1")){
+					temp.add("ADMIN");
+				}else {
+					temp.add("");
+				}
+				
+				res.add(temp);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void addNewUserByAdmin(int id, String string, String string2) {
+		this.executeModif("Update utilisteur set name = '"+string2+" where id = "+string+";");
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a modifié le nom d'utilisateur de celui dont l'id  = "+string+"\")");
+	}
+
+	public void deleteUserByAdmin(int id, String text, String text2) {
+		this.executeModif("DELETE FROM voyageur where id = "+text+";");
+		this.executeModif("DELETE FROM utilisateur where id = "+text+";");
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a supprimé l'utilisateur :( "+text+","+text2+")"+"\")");
+	}
+
 }

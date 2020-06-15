@@ -112,20 +112,21 @@ public class Login  extends JFrame{
 					if(b==-1) {
 						show_options("You have entred Wrong info.\nFeel fre to create an account!");
 					}else {
+						int id_user = dbh.getId(user,pass);
 						if(b==0) {
 							// open user inteface. INCOMPLETE
 							System.out.println("user");
 							
 							frame.dispose();
-							int id_user = dbh.getId(user,pass);
+							
 							new HomePage(id_user);
 							
 						}else {
 							System.out.println("admin");
 							frame.dispose();
 							
-							new HomePage(1);
-							// open admin inteface. INCOMPLETE
+							
+							new Home_admin(id_user);
 							
 						}
 						
