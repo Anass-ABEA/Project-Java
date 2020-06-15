@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseHelper;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class gestionUsers {
 
@@ -25,6 +27,7 @@ public class gestionUsers {
 	private JTable table;
 	private DatabaseHelper dbh;
 	private ArrayList<ArrayList<String>> list;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -163,7 +166,7 @@ public class gestionUsers {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dbh.addNewUserByAdmin(id,idx.getText(),name.getText());
+				dbh.addNewUserByAdmin(id,idx.getText(),name.getText(),comboBox.getSelectedIndex());
 				frame.dispose();
 				new gestionUsers(id);
 			}
@@ -180,6 +183,15 @@ public class gestionUsers {
 			
 		});
 		idx.setEditable(false);
+		
+		JLabel lblAdmin = new JLabel("admin");
+		lblAdmin.setBounds(433, 414, 326, 28);
+		frame.getContentPane().add(lblAdmin);
+		
+		this.comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "ADMIN"}));
+		comboBox.setBounds(433, 443, 326, 40);
+		frame.getContentPane().add(comboBox);
 		frame.setVisible(true);
 		
 	}
@@ -187,6 +199,12 @@ public class gestionUsers {
 	protected void filltb(int selectedRow) {
 		idx.setText(list.get(table.getSelectedRow()).get(0));
 		name.setText(list.get(table.getSelectedRow()).get(1));
+		if(list.get(table.getSelectedRow()).get(2).equals("ADMIN")) {
+			comboBox.setSelectedIndex(1);
+		}else {
+			comboBox.setSelectedIndex(0);
+		}
+		
 		
 	}
 }

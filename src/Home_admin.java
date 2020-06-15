@@ -115,6 +115,16 @@ public class Home_admin {
 		travelers.setContentAreaFilled(false);
 		travelers.setBounds(528, 71, 185, 53);
 		frmGestion.getContentPane().add(travelers);
+		travelers.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frmGestion.dispose();
+				new gestionVoyageurs(id);
+				
+			}
+			
+		});
 		
 		JButton ticekts = new JButton("gestion des billets");
 		ticekts.addActionListener(new ActionListener() {

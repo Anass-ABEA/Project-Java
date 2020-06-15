@@ -480,15 +480,54 @@ public class DatabaseHelper {
 		return res;
 	}
 
-	public void addNewUserByAdmin(int id, String string, String string2) {
-		this.executeModif("Update utilisteur set name = '"+string2+" where id = "+string+";");
-		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a modifié le nom d'utilisateur de celui dont l'id  = "+string+"\")");
+	public void addNewUserByAdmin(int id, String string, String string2, int i) {
+		this.executeModif("Update utilisateur set Login = '"+string2+"', admin = "+i+" where id = "+string+";");
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a modifié les détails de l'utilisateur de celui dont l'id  = "+string+"\")");
 	}
 
 	public void deleteUserByAdmin(int id, String text, String text2) {
 		this.executeModif("DELETE FROM voyageur where id = "+text+";");
 		this.executeModif("DELETE FROM utilisateur where id = "+text+";");
 		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a supprimé l'utilisateur :( "+text+","+text2+")"+"\")");
+	}
+
+	public ArrayList<ArrayList<String>> getVoyList() {
+		ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+		ResultSet rs = this.executeSql("select * from voyageur");
+		ArrayList<String> temp = new ArrayList<String>();
+		try {
+			while(rs.next()) {
+				temp = new ArrayList<String>();
+				temp.add(rs.getString(1));
+				temp.add(rs.getString(2));
+				temp.add(rs.getString(3));
+				temp.add(rs.getString(4));
+				temp.add(rs.getString(5));
+				
+				
+				
+				res.add(temp);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void updateVoyageur(int id,String idxs, String text, String text2, String text3, String text4) {
+		this.executeModif("Update voyageur set nom = '"+text+"', prenom = '"+text2+"',adresse = '"+text4+"' ,passport = '"+text3+"' where id = "+idxs);
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a modifié les informations du voyageur dont l'id  = "+idxs+"\")");
+		
+	}
+
+	public void deleteVoyageur(int id,String idxs, String text, String text2, String text3, String text4) {
+		this.executeModif("DELETE FROM  voyageur  where id = "+idxs);
+		this.executeModif("DELETE FROM  utilisateur  where id = "+idxs);
+		this.executeModif("INSERT INTO logs(text) values (\"l'admin :"+id+" a supprimé  le voyageur  = ("+idxs+" "+text+" "+text2+" "+text3+" "+text4+")\")");
+		
+		
 	}
 
 }

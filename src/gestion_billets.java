@@ -68,12 +68,8 @@ public class gestion_billets {
 		back.setBounds(12, 13, 159, 62);
 		frame.getContentPane().add(back);
 		
-		JButton seats = new JButton("Gerer Les Sieges");
-		seats.setBounds(280, 13, 159, 62);
-		frame.getContentPane().add(seats);
-		
 		JButton users = new JButton("Gerer Les Utilisateurs");
-		users.setBounds(598, 13, 159, 62);
+		users.setBounds(456, 13, 159, 62);
 		frame.getContentPane().add(users);
 		users.addActionListener(new ActionListener() {
 
@@ -88,6 +84,15 @@ public class gestion_billets {
 		JButton flights = new JButton("G\u00E9rer Les Vols");
 		flights.setBounds(911, 13, 159, 62);
 		frame.getContentPane().add(flights);
+		flights.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new gestion_vol(id);
+			}
+			
+		});
 		
 		JButton btnNewButton_4 = new JButton("<");
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 16));
