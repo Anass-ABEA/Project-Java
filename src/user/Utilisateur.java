@@ -12,7 +12,7 @@ public class Utilisateur{
   }
 
 private String encrypt(String pPWD, String pLogin) {
-																					/// INCOMPLETE
+																				
 	return pPWD;
 }
 

@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 public class gestion_billets {
 
-	private JFrame frame;
+	private JFrame frmGestionDesBillets;
 	private JTable table_NV;
 	private JTable table_V;
 	private DatabaseHelper dbh;
@@ -32,7 +33,7 @@ public class gestion_billets {
 			public void run() {
 				try {
 					gestion_billets window = new gestion_billets(1);
-					window.frame.setVisible(true);
+					window.frmGestionDesBillets.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,29 +54,32 @@ public class gestion_billets {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(int id) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1100, 739);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmGestionDesBillets = new JFrame();
+		frmGestionDesBillets.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
+		frmGestionDesBillets.setTitle("Gestion Des Billets");
+		frmGestionDesBillets.setResizable(false);
+		frmGestionDesBillets.setBounds(100, 100, 1100, 739);
+		frmGestionDesBillets.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGestionDesBillets.getContentPane().setLayout(null);
 		
 		JButton back = new JButton("Retour");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmGestionDesBillets.dispose();
 				new Home_admin(id);
 			}
 		});
 		back.setBounds(12, 13, 159, 62);
-		frame.getContentPane().add(back);
+		frmGestionDesBillets.getContentPane().add(back);
 		
 		JButton users = new JButton("Gerer Les Utilisateurs");
 		users.setBounds(456, 13, 159, 62);
-		frame.getContentPane().add(users);
+		frmGestionDesBillets.getContentPane().add(users);
 		users.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmGestionDesBillets.dispose();
 				new gestionUsers(id);
 				
 			}
@@ -83,12 +87,12 @@ public class gestion_billets {
 		});
 		JButton flights = new JButton("G\u00E9rer Les Vols");
 		flights.setBounds(911, 13, 159, 62);
-		frame.getContentPane().add(flights);
+		frmGestionDesBillets.getContentPane().add(flights);
 		flights.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmGestionDesBillets.dispose();
 				new gestion_vol(id);
 			}
 			
@@ -97,7 +101,7 @@ public class gestion_billets {
 		JButton btnNewButton_4 = new JButton("<");
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_4.setBounds(512, 331, 58, 42);
-		frame.getContentPane().add(btnNewButton_4);
+		frmGestionDesBillets.getContentPane().add(btnNewButton_4);
 		
 		JButton btnNewButton_4_1 = new JButton(">");
 		btnNewButton_4_1.setBorder(new LineBorder(new Color(0, 51, 255), 2, true));
@@ -106,11 +110,11 @@ public class gestion_billets {
 		btnNewButton_4.setForeground(new Color(255, 51, 0));
 		btnNewButton_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_4_1.setBounds(512, 448, 58, 42);
-		frame.getContentPane().add(btnNewButton_4_1);
+		frmGestionDesBillets.getContentPane().add(btnNewButton_4_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 141, 476, 538);
-		frame.getContentPane().add(scrollPane);
+		frmGestionDesBillets.getContentPane().add(scrollPane);
 		
 		table_NV = new JTable();
 		ArrayList<ArrayList<String>> liste_nv =fill_tables().get(0);
@@ -141,7 +145,7 @@ public class gestion_billets {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(582, 141, 476, 538);
-		frame.getContentPane().add(scrollPane_1);
+		frmGestionDesBillets.getContentPane().add(scrollPane_1);
 		
 		table_V = new JTable();
 		ArrayList<ArrayList<String>> liste_v = fill_tables().get(1);
@@ -172,11 +176,11 @@ public class gestion_billets {
 		
 		JLabel lblNewLabel = new JLabel("Les billets Non Valid\u00E9s :");
 		lblNewLabel.setBounds(12, 112, 247, 16);
-		frame.getContentPane().add(lblNewLabel);
+		frmGestionDesBillets.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Les billets Valid\u00E9s :");
 		lblNewLabel_1.setBounds(582, 112, 247, 16);
-		frame.getContentPane().add(lblNewLabel_1);
+		frmGestionDesBillets.getContentPane().add(lblNewLabel_1);
 		
 		btnNewButton_4_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -190,12 +194,12 @@ public class gestion_billets {
 				refresh(id);
 			}
 		});
-		frame.setVisible(true);
+		frmGestionDesBillets.setVisible(true);
 		
 		
 	}
 	private void refresh(int id) {
-		frame.dispose();
+		frmGestionDesBillets.dispose();
 		new gestion_billets(id);
 	}
 

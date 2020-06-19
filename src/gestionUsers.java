@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -21,7 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class gestionUsers {
 
-	private JFrame frame;
+	private JFrame frmGestionDesUtilisateurs;
 	private JTextField idx;
 	private JTextField name;
 	private JTable table;
@@ -37,7 +38,7 @@ public class gestionUsers {
 			public void run() {
 				try {
 					gestionUsers window = new gestionUsers(1);
-					window.frame.setVisible(true);
+					window.frmGestionDesUtilisateurs.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -58,38 +59,41 @@ public class gestionUsers {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(int id) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 816, 656);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmGestionDesUtilisateurs = new JFrame();
+		frmGestionDesUtilisateurs.setTitle("Gestion Des Utilisateurs");
+		frmGestionDesUtilisateurs.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
+		frmGestionDesUtilisateurs.setResizable(false);
+		frmGestionDesUtilisateurs.setBounds(100, 100, 816, 656);
+		frmGestionDesUtilisateurs.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGestionDesUtilisateurs.getContentPane().setLayout(null);
 		
 		JButton save = new JButton("Modifier");
 		save.setForeground(new Color(0, 51, 255));
 		save.setBorder(new LineBorder(new Color(0, 51, 255), 2, true));
 		save.setBounds(689, 13, 97, 49);
-		frame.getContentPane().add(save);
+		frmGestionDesUtilisateurs.getContentPane().add(save);
 		
 		JButton del = new JButton("Supprimer");
 		del.setForeground(new Color(255, 51, 51));
 		del.setBorder(new LineBorder(new Color(255, 51, 0), 2, true));
 		del.setBounds(565, 13, 97, 49);
-		frame.getContentPane().add(del);
+		frmGestionDesUtilisateurs.getContentPane().add(del);
 		
 		JButton back = new JButton("Retour");
 		back.setBounds(12, 13, 97, 49);
-		frame.getContentPane().add(back);
+		frmGestionDesUtilisateurs.getContentPane().add(back);
 		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmGestionDesUtilisateurs.dispose();
 				new gestion_billets(id);
 			}
 			
 		});
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(39, 110, 343, 471);
-		frame.getContentPane().add(scrollPane);
+		frmGestionDesUtilisateurs.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		
@@ -147,27 +151,27 @@ public class gestionUsers {
 		
 		JLabel lblNewLabel = new JLabel("ID");
 		lblNewLabel.setBounds(433, 205, 326, 28);
-		frame.getContentPane().add(lblNewLabel);
+		frmGestionDesUtilisateurs.getContentPane().add(lblNewLabel);
 		
 		idx = new JTextField();
 		idx.setBounds(433, 231, 326, 35);
-		frame.getContentPane().add(idx);
+		frmGestionDesUtilisateurs.getContentPane().add(idx);
 		idx.setColumns(10);
 		
 		name = new JTextField();
 		name.setColumns(10);
 		name.setBounds(433, 332, 326, 35);
-		frame.getContentPane().add(name);
+		frmGestionDesUtilisateurs.getContentPane().add(name);
 		
 		JLabel lblNomDutilisateur = new JLabel("Nom D'utilisateur");
 		lblNomDutilisateur.setBounds(433, 306, 326, 28);
-		frame.getContentPane().add(lblNomDutilisateur);
+		frmGestionDesUtilisateurs.getContentPane().add(lblNomDutilisateur);
 		save.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dbh.addNewUserByAdmin(id,idx.getText(),name.getText(),comboBox.getSelectedIndex());
-				frame.dispose();
+				frmGestionDesUtilisateurs.dispose();
 				new gestionUsers(id);
 			}
 			
@@ -177,7 +181,7 @@ public class gestionUsers {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dbh.deleteUserByAdmin(id,idx.getText(),name.getText());
-				frame.dispose();
+				frmGestionDesUtilisateurs.dispose();
 				new gestionUsers(id);
 			}
 			
@@ -186,13 +190,13 @@ public class gestionUsers {
 		
 		JLabel lblAdmin = new JLabel("admin");
 		lblAdmin.setBounds(433, 414, 326, 28);
-		frame.getContentPane().add(lblAdmin);
+		frmGestionDesUtilisateurs.getContentPane().add(lblAdmin);
 		
 		this.comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "ADMIN"}));
 		comboBox.setBounds(433, 443, 326, 40);
-		frame.getContentPane().add(comboBox);
-		frame.setVisible(true);
+		frmGestionDesUtilisateurs.getContentPane().add(comboBox);
+		frmGestionDesUtilisateurs.setVisible(true);
 		
 	}
 

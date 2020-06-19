@@ -8,7 +8,7 @@ protected String prenom;
 protected String adresse;
 
 // le constructeur:
-  public Voyageur(String pLogin, String  pPWD ,String passeport ,String nom ,String prenom ,String adresse){
+  public Voyageur(String pLogin, String  pPWD ,String prenom ,String nom ,String passeport ,String adresse){
     super(pLogin,pPWD);
     this.passeport = passeport;
     this.nom = nom;

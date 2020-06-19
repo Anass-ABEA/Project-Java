@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -63,6 +64,8 @@ public class gestion_vol {
 	 */
 	private void initialize(int id) {
 		frmGestionDesVols = new JFrame();
+		frmGestionDesVols.setResizable(false);
+		frmGestionDesVols.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		frmGestionDesVols.setTitle("Gestion Des Vols");
 		frmGestionDesVols.setBounds(100, 100, 1118, 745);
 		frmGestionDesVols.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

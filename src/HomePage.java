@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import database.DatabaseHelper;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -95,6 +96,8 @@ public class HomePage {
 	 */
 	private void initialize(int ID) {
 		frmHomePage = new JFrame();
+		frmHomePage.setResizable(false);
+		frmHomePage.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		frmHomePage.setTitle("Home Page");
 		frmHomePage.setBounds(100, 100, 1107, 741);
 		frmHomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,7 +121,7 @@ public class HomePage {
 		JLabel lblNewLabel_1 = new JLabel("NOM :");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(36, 53, 56, 30);
+		lblNewLabel_1.setBounds(36, 53, 56,  30);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("PRENOM :");

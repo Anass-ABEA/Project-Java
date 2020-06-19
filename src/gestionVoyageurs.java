@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -60,6 +61,8 @@ public class gestionVoyageurs {
 	 */
 	private void initialize(int id) {
 		frmGererLesVoyageurs = new JFrame();
+		frmGererLesVoyageurs.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
+		frmGererLesVoyageurs.setResizable(false);
 		frmGererLesVoyageurs.setTitle("Gerer les Voyageurs");
 		frmGererLesVoyageurs.setBounds(100, 100, 1119, 769);
 		frmGererLesVoyageurs.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

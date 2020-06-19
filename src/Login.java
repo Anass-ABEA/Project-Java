@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -83,6 +84,7 @@ public class Login  extends JFrame{
 		frame.setResizable(false);
 		frame.setTitle("Login Page");
 		frame.setBackground(Color.WHITE);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		frame.setBounds(100, 100, 1251, 523);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 import database.DatabaseHelper;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -57,7 +58,9 @@ public class Home_admin {
 	 */
 	private void initialize(int id_user) {
 		frmGestion = new JFrame();
+		frmGestion.setResizable(false);
 		frmGestion.setTitle("Gestion");
+		frmGestion.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		frmGestion.setBounds(100, 100, 1029, 689);
 		frmGestion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGestion.getContentPane().setLayout(null);

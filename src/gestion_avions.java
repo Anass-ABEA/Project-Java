@@ -21,7 +21,7 @@ import flights.Avion;
 
 public class gestion_avions {
 
-	private JFrame frame;
+	private JFrame frmGestionDesVols;
 	private JTextField id;
 	private JTextField com;
 	private JTextField nb;
@@ -37,7 +37,7 @@ public class gestion_avions {
 			public void run() {
 				try {
 					gestion_avions window = new gestion_avions(1);
-					window.frame.setVisible(true);
+					window.frmGestionDesVols.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,19 +59,21 @@ public class gestion_avions {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(int idx) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 918, 745);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmGestionDesVols = new JFrame();
+		frmGestionDesVols.setTitle("Gestion des Avions");
+		frmGestionDesVols.setResizable(false);
+		frmGestionDesVols.setBounds(100, 100, 918, 745);
+		frmGestionDesVols.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGestionDesVols.getContentPane().setLayout(null);
 		
 		JButton btnNewButton = new JButton("Retour");
 		btnNewButton.setBounds(12, 13, 97, 49);
-		frame.getContentPane().add(btnNewButton);
+		frmGestionDesVols.getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmGestionDesVols.dispose();
 				new Home_admin(ident);
 				
 			}
@@ -81,36 +83,36 @@ public class gestion_avions {
 		
 		id = new JTextField();
 		id.setBounds(12, 104, 221, 38);
-		frame.getContentPane().add(id);
+		frmGestionDesVols.getContentPane().add(id);
 		id.setColumns(10);
 		
 		com = new JTextField();
 		com.setColumns(10);
 		com.setBounds(344, 104, 221, 38);
-		frame.getContentPane().add(com);
+		frmGestionDesVols.getContentPane().add(com);
 		
 		nb = new JTextField();
 		nb.setColumns(10);
 		nb.setBounds(667, 104, 221, 38);
-		frame.getContentPane().add(nb);
+		frmGestionDesVols.getContentPane().add(nb);
 		nb.setHorizontalAlignment(SwingConstants.CENTER);
 		com.setHorizontalAlignment(SwingConstants.CENTER);
 		id.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblNewLabel = new JLabel("IDA : ");
 		lblNewLabel.setBounds(12, 75, 221, 32);
-		frame.getContentPane().add(lblNewLabel);
+		frmGestionDesVols.getContentPane().add(lblNewLabel);
 		
 		JLabel lblCompanie = new JLabel("Companie :");
 		lblCompanie.setBounds(344, 75, 221, 32);
-		frame.getContentPane().add(lblCompanie);
+		frmGestionDesVols.getContentPane().add(lblCompanie);
 		
 		JLabel lblNbplaces = new JLabel("Nombre De Places :");
 		lblNbplaces.setBounds(667, 75, 221, 32);
-		frame.getContentPane().add(lblNbplaces);
+		frmGestionDesVols.getContentPane().add(lblNbplaces);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 188, 876, 497);
-		frame.getContentPane().add(scrollPane);
+		frmGestionDesVols.getContentPane().add(scrollPane);
 		
 		this.list = dbh.fillListe();
 		String[][]  liste = new String[list.size()][3];
@@ -172,19 +174,19 @@ public class gestion_avions {
 		btnNewButton_1.setBorder(new LineBorder(new Color(0, 51, 255), 2, true));
 		btnNewButton_1.setForeground(new Color(0, 51, 255));
 		btnNewButton_1.setBounds(791, 13, 97, 49);
-		frame.getContentPane().add(btnNewButton_1);
+		frmGestionDesVols.getContentPane().add(btnNewButton_1);
 		
 		JButton del = new JButton("Supprimer");
 		del.setForeground(new Color(255, 51, 51));
 		del.setBorder(new LineBorder(new Color(255, 51, 0), 2, true));
 		del.setBounds(667, 13, 97, 49);
-		frame.getContentPane().add(del);
+		frmGestionDesVols.getContentPane().add(del);
 		btnNewButton_1.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dbh.addnewavion(new Avion(id.getText(),com.getText(),nb.getText()),idx);
-				frame.dispose();
+				frmGestionDesVols.dispose();
 				new gestion_avions(idx);
 			}
 			
@@ -194,12 +196,12 @@ public class gestion_avions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dbh.deleteAvion(new Avion(id.getText(),com.getText(),nb.getText()),idx);
-				frame.dispose();
+				frmGestionDesVols.dispose();
 				new gestion_avions(idx);
 			}
 			
 		});
-		frame.setVisible(true);
+		frmGestionDesVols.setVisible(true);
 		
 	}
 

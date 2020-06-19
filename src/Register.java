@@ -26,6 +26,8 @@ import user.Utilisateur;
 import user.Voyageur;
 
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
@@ -71,6 +73,7 @@ public class Register extends JFrame{
 	 * Create the application.
 	 */
 	public Register(Boolean e) {
+		setTitle("Cr\u00E9er Compte");
 		dbh = new DatabaseHelper();
 		dbh.connect();
 		initialize(e);
@@ -85,6 +88,7 @@ public class Register extends JFrame{
 		frame.getContentPane().setBackground(new Color(52, 125, 235));
 		frame.setTitle("Register Page");
 		frame.setBackground(Color.WHITE);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		frame.setBounds(100, 100, 1028, 560);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Image img = new ImageIcon(this.getClass().getResource("/register.jpeg")).getImage();
@@ -354,6 +358,7 @@ public class Register extends JFrame{
 						JOptionPane.showMessageDialog(frame, "Vous avez laissé une des cases vides", "Attetion!!",JOptionPane.OK_OPTION);
 						
 					}else {
+						
 						v= new Voyageur(uInstance,nom.getText(),prenom.getText(),passport.getText(),adr.getText());
 						Pname=prenom.getText();
 						Fname=nom.getText();

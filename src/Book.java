@@ -94,7 +94,7 @@ public class Book {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Book window = new Book("JBU1420-1510381558-airline-037",1);
+					Book window = new Book("JBU1407-1510381558-airline-001",1);
 					window.frmRservezVotrePlace.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -129,7 +129,7 @@ public class Book {
 		frmRservezVotrePlace.setBounds(100, 100, 1221, 703);
 		frmRservezVotrePlace.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmRservezVotrePlace.getContentPane().setLayout(null);
-		
+		frmRservezVotrePlace.setIconImage(Toolkit.getDefaultToolkit().getImage("img\\logo.png"));
 		JButton btnNewButton = new JButton("  Terminer et Payer");
 		btnNewButton.setIcon(new ImageIcon("img\\pay_small.png"));
 		btnNewButton.setBounds(714, 522, 234, 48);
