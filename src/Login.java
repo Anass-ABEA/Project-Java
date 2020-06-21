@@ -155,6 +155,7 @@ public class Login  extends JFrame{
 					if(x==0) {
 						frame.dispose();
 						new Register(true);
+						
 					}
 					
 					

@@ -49,6 +49,7 @@ public class Register extends JFrame{
 	private JTextField nom;
 	private Utilisateur uInstance;
 	private Voyageur vInstance;
+	
 
 	private String U,P,CP;
 	/**
