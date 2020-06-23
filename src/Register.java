@@ -360,7 +360,7 @@ public class Register extends JFrame{
 						
 					}else {
 						
-						v= new Voyageur(uInstance,nom.getText(),prenom.getText(),passport.getText(),adr.getText());
+						v= new Voyageur(uInstance,passport.getText(),prenom.getText(),nom.getText(),adr.getText());
 						Pname=prenom.getText();
 						Fname=nom.getText();
 						PassPort=passport.getText();

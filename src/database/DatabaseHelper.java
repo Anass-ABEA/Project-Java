@@ -89,6 +89,7 @@ public class DatabaseHelper {
 		pname=v.getPrenom();
 		adress=v.getAdresse();
 		passPort=v.getPasseport();
+		System.out.println(v.toString());
 		this.executeModif("INSERT INTO Utilisateur (login,pass,admin)values ('"+u+"','"+p+"',0);");
 		this.executeSql("commit;");
 		ResultSet rs = this.executeSql("SELECT ID from Utilisateur where login ='"+u+"' and pass ='"+p+"';");

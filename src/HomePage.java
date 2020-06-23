@@ -70,7 +70,7 @@ public class HomePage {
 			public void run() {
 				try {
 					
-					HomePage window = new HomePage(1);
+					HomePage window = new HomePage(5);
 					window.frmHomePage.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -183,6 +183,7 @@ public class HomePage {
 		nom.setFocusable(false);
 		prenom.setFocusable(false);
 		ArrayList<String> infoList= dbh.getInfo(ID);
+		
 		nom.setText(infoList.get(0));
 		prenom.setText(infoList.get(1));
 		passport.setText(infoList.get(2));

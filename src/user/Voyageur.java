@@ -45,6 +45,10 @@ public void setPasseport(String passeport){
   this.passeport = passeport;
 }
 
+@Override
+public String toString() {
+	return "Voyageur [passeport=" + passeport + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + "]";
+}
 public void setNom(String nom){
   this.nom = nom;
 }
