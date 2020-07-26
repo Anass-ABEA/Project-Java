@@ -1,6 +1,5 @@
-# Project managing the flights and tickets + booking
-
-
+# Project 
+this is a Java project for managing the flights and tickets + booking
 
 # Clone The Project
 ```
